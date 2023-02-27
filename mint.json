@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Alifpay",
   "logo": {
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
@@ -28,7 +28,7 @@
     {
       "group": "Онлайн-касса",
       "pages": [
-        "api-reference/checkout/createSession"
+        "api-reference/checkout/invoice"
       ]
     }
   ],
