@@ -1,57 +1,65 @@
 ---
-title: "Сервисы Alifpay"
-description: ""
+title: "Спецификация"
+description: "Структура и описание протокола взаимодействия"
 ---
 
-{/* ### 💻  Set up autodeploys
-- Install our Github Bot to setup autodeploying your docs. You should have received an email with a link. Didn't get an email? <a href="mailto:kate@mintlify.com">Contact us.</a>
-- Download our <a href="https://mintlify.com/docs/development">Mintlify CLI</a> to preview changes locally.
+## Введение
+API представляет собой [HTTP-based RPC (remote procedure call)](https://www.smashingmagazine.com/2016/09/understanding-rest-and-rpc-for-http-apis/). Название метода (процедуры) передается в URL. Каждый HTTP-запрос должен иметь метод `POST`. В качестве типа тела запроса используется JSON.
 
-### 😎 Make it yours
-1. Change `name` in the `mint.json` file to your company or product's name.
-2. Update `logo` folder with the light and dark version of your logo (can be svg or png).
-3. Populate the `colors` object with colors that match your brand
-4. Change the `favicon.png` with an image of the favicon
-5. Update `footerSocials` with the right `[platform]: [url]` key-value pair
+Каждый HTTP ответ имеет статус `200 - OK`. В корне тела ответа есть поле `code`, которое показывает с каким статусом был завершен запрос. Со всеми кодами можно ознакомиться тут.
+В теле неуспешного ответа есть поле `message`, которое дает небольшое описание об ошибке.
 
-### ✍️ Add content
-<Tip>
-Need inspiration? Check out some of <a href="https://mintlify.com/showcase">our customers' docs </a>.
-</Tip>
-Add anything from images and new pages on your docs to creating your own MDX components. Check out the components we have built out of the box <a href="https://mintlify.com/docs/writing-content/overview">here</a>.<br />
+**Пример URL**
+```
+https://panda.alifpay.uz/doSomethingCool
+```
 
-Have existing docs and want support migrating? <a href="mailto:kate@mintlify.com">Contact us.</a>
+**Пример запроса**:
 
-## Quick links
-<CardGroup>
-  <Card title="Developer setup" icon="rectangle-terminal" href="https://mintlify.com/docs/development">
-    Run on your computer to see changes locally
-  </Card>
-  <Card title="Style it up" icon="sliders" href="https://mintlify.com/docs/settings/global">
-    Customizing the theme, branding, and other global configurations
-  </Card>
-  <Card title="SEO and Metadata" icon="heading" href="https://mintlify.com/docs/settings/page">
-    Setting the title and metadata for navigation and SEO
-  </Card>
-  <Card title="Content Tips" icon="pen-nib" href="https://mintlify.com/docs/components/overview">
-    Introduction on how to add and edit content
-  </Card>
-</CardGroup>
+```json request.json
+{
+  "msg": "ping",
+  "meta": {
+    "desc": "test request"
+  }
+}
+```
 
-## Advanced Topics
-Learn more about how to take your documentation to the next level
+**Успешный ответ**:
 
-<CardGroup>
-  <Card title="Custom Domains" icon="browser" href="https://mintlify.com/docs/settings/custom-domain/subdomain">
-    Get the documentation hosted at your custom domain
-  </Card>
-  <Card title="Advanced Components" icon="paintbrush-pencil" href="https://mintlify.com/docs/components/advanced/accordion">
-    Advanced components built for specific communication mediums
-  </Card>
-  <Card title="API Components" icon="square-code" href="https://mintlify.com/docs/api-components/overview">
-    Add an API playground into your documentation
-  </Card>
-  <Card title="Analytics" icon="chart-mixed" href="https://mintlify.com/docs/analytics/supported-integrations">
-    Learn how users are interacting with your documentation
-  </Card>
-</CardGroup> */}
+```json res.json
+{
+  "msg": "pong"
+}
+```
+
+**Неуспешный ответ**:
+
+```json res.json
+{
+  "error": {
+    "code": 1002,
+    "message": "unauthorized"
+  }
+}
+```
+
+## Авторизация запросов
+Каждому мерчанту выдан токен. Для авторизации запроса его нужно передавать в заголовке запроса.
+
+```bash
+'Token': '<team_token>'
+```
+
+
+## Коды ответов
+
+| Код          | Описание                  |
+| -----------  | ------------------------- |
+| `1001`       | `Bad request           `  |
+| `1002`       | `Unauthorized          `  |
+| `1003`       | `Internal error        `  |
+| `1004`       | `Not found             `  |
+| `1005`       | `Unprocessable entity  `  |
+| `1104`       | `Pending               `  |
+| `1105`       | `Duplication           `  |
